@@ -80,6 +80,10 @@ with open(os.getenv('create_instance_input_json'), 'w') as f:
 EOF
 
 aws ec2 run-instances --cli-input-json file://"${create_instance_input_json}" > "$create_instances_output_json"
+instance_id=$(jq -r '.Instances[0].InstanceId' "$create_instances_output_json")
+echo "Waiting for instance $instance_id to be running"
+aws ec2 wait instance-running --instance-ids $instance_id
+echo "Instance $instance_id is running"
 }
 
 
