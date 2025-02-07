@@ -34,3 +34,4 @@ cd ./scripts && ./provision.sh
 or
 ./scripts/provision.sh
 ```
+If it fails, keep running it as it is idempotent.
