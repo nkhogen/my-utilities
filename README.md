@@ -31,4 +31,6 @@ launched_by="<your user id>"
 ### To run, simply do
 ```
 cd ./scripts && ./provision.sh
+or
+./scripts/provision.sh
 ```
