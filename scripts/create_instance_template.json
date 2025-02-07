@@ -1,0 +1,133 @@
+{
+    "ImageId": "ami-00ce8e80b02149455",
+    "KeyName": "nsingh-onprem-keypair",
+    "MinCount": 1,
+    "MaxCount": 1,
+    "InstanceType": "c5.large",
+    "NetworkInterfaces": [
+      {
+        "DeviceIndex": 0,
+        "SubnetId": "subnet-6553f513",
+        "Groups": [
+          "sg-139dde6c"
+        ],
+        "DeleteOnTermination": true,
+        "AssociatePublicIpAddress": true
+      }
+    ],
+    "BlockDeviceMappings": [
+      {
+        "DeviceName": "/dev/sda1",
+        "Ebs": {
+          "DeleteOnTermination": true,
+          "VolumeSize": 40,
+          "VolumeType": "gp3",
+          "Iops": 3000,
+          "Throughput": 125
+        }
+      },
+      {
+        "DeviceName": "/dev/xvdb",
+        "Ebs": {
+          "DeleteOnTermination": true,
+          "VolumeType": "gp3",
+          "VolumeSize": 100,
+          "Iops": 3000,
+          "Throughput": 125
+        }
+      }
+    ],
+    "TagSpecifications": [
+      {
+        "ResourceType": "instance",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "nsingh-test1"
+          },
+          {
+            "Key": "launched-by",
+            "Value": "nkhogen"
+          },
+          {
+            "Key": "yb-server-type",
+            "Value": "cluster-server"
+          },
+          {
+            "Key": "yb_dept",
+            "Value": "eng"
+          },
+          {
+            "Key": "yb_owner",
+            "Value": "dev"
+          },
+          {
+            "Key": "yb_task",
+            "Value": "dev"
+          },
+          {
+            "Key": "yb_user_email",
+            "Value": "admin"
+          },
+          {
+            "Key": "yb_yba_url",
+            "Value": "localhost:9000"
+          }
+        ]
+      },
+      {
+        "ResourceType": "network-interface",
+        "Tags": [
+          {
+            "Key": "yb_dept",
+            "Value": "eng"
+          },
+          {
+            "Key": "yb_owner",
+            "Value": "dev"
+          },
+          {
+            "Key": "yb_task",
+            "Value": "dev"
+          },
+          {
+            "Key": "yb_user_email",
+            "Value": "admin"
+          },
+          {
+            "Key": "yb_yba_url",
+            "Value": "localhost:9000"
+          }
+        ]
+      },
+      {
+        "ResourceType": "volume",
+        "Tags": [
+          {
+            "Key": "yb_dept",
+            "Value": "eng"
+          },
+          {
+            "Key": "yb_owner",
+            "Value": "dev"
+          },
+          {
+            "Key": "yb_task",
+            "Value": "dev"
+          },
+          {
+            "Key": "yb_user_email",
+            "Value": "admin"
+          },
+          {
+            "Key": "yb_yba_url",
+            "Value": "localhost:9000"
+          }
+        ]
+      }
+    ],
+    "MetadataOptions": {
+      "HttpTokens": "required",
+      "HttpEndpoint": "enabled"
+    }
+  }
