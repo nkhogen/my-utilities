@@ -36,7 +36,6 @@ run_remote_command() {
   ip="$1"
   shift
   command=$@
-  echo "Running remote command: $command"
   ssh -q -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -i "$ssh_key_path" ${instance_user}\@$ip "$command"
 }
 
