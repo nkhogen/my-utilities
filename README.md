@@ -1,4 +1,4 @@
-### Modify the below before running
+### Modify the below in scripts/provision.sh before running
 ```
 yba_url="<yba_address>"
 api_token="<your_api_key>"
@@ -8,7 +8,7 @@ launched_by="<your user id>"
 
 ```
 
-### Some other places that may need modifications in node-agent-provision.yaml. Modify only the non-placeholder ones. The placeholders are replaced when the script is run.
+### Some other places that may need modifications in scripts/node-agent-provision.yaml. Modify only the non-placeholder ones. The placeholders are replaced when the script is run.
 ```
   provider:
     # Name of the cloud or infrastructure provider.
