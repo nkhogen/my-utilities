@@ -42,7 +42,6 @@ run_remote_command() {
 # Create an instance if it is not present by the name.
 create_instance() {
   output=$(aws ec2 describe-instances --filters 'Name=tag:Name,Values='"${instance_name}"'')
-  echo -n $output > test.json
   instance_absent=$(echo -n $output | jq -r 'all(.Reservations[].Instances[]; .State.Name == "terminated")')
   if [ "$instance_absent" == "false" ]; then
     echo "Instance ${instance_name} already exists. Skipping create instance."
