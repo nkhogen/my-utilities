@@ -1,4 +1,7 @@
 create_instance_input.json
 create_instances_output.json
 node-agent-provision-output.yml
+test.json
+.DS_Store
+.DS_Store.out
 

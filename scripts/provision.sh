@@ -1,24 +1,27 @@
 #!/usr/bin/env bash
 set -ex
 
-#-----------------------------------------------------------#
-# Change these values to customize for you. You may need to also modify the non placeholder (NOT in angle brackets)
-# values in node-agent-provision.yaml if more customizations are needed.
-#-----------------------------------------------------------#
+# Please install jq if it is not already installed.
 
-yba_url="<yba_address>"
-api_token="<your_api_key>"
+#---------------------------------------------------------------------------------------#
+# Change these values to customize for you. You may need to also modify
+# the non placeholder (NOT in angle brackets) values in node-agent-provision.yaml
+# if more customizations are needed.
+#---------------------------------------------------------------------------------------#
+
+yba_url="http://100.98.0.42:9000"
+api_token="3.a9190fe6-1067-409f-95cf-dbd96893c9c9.2b2374ff-09fd-4ae3-8c54-d9692a7b8a8f"
 customer_uuid="f33e3c9b-75ab-4c30-80ad-cba85646ea39"
-instance_name="my-instance-1"
-launched_by="<your user id>"
+instance_name="nsingh-instance-1"
+launched_by="nsingh"
 instance_type="c5.large"
 os_type="linux"
 arch_type="amd64"
 
 
-#-----------------------------------------------------------#
+#---------------------------------------------------------------------------------------#
 # Some internal constants. Not needed to be changed.
-#-----------------------------------------------------------#
+#---------------------------------------------------------------------------------------#
 create_instance_template_json="create_instance_template.json"
 create_instance_input_json="create_instance_input.json"
 create_instances_output_json="create_instances_output.json"
@@ -135,19 +138,19 @@ provision_instance() {
     volume_id=$(echo -n "$volume" | awk '{print $7}')
     echo "Device Name: $device_name, Volume ID: $volume_id"
     if run_remote_command $private_ip_address "grep -qs $device_name /proc/mounts"; then
-        echo "Device $device_name is already mounted"
+      echo "Device $device_name is already mounted"
     else
-        echo "Mounting device $device_name"
-        run_remote_command $private_ip_address "sudo mkfs -t xfs $device_name"
-        run_remote_command $private_ip_address "sudo mkdir -p /mnt/d0; sudo mount $device_name /mnt/d0"
+      echo "Mounting device $device_name"
+      run_remote_command $private_ip_address "sudo mkfs -t xfs $device_name"
+      run_remote_command $private_ip_address "sudo mkdir -p /mnt/d0; sudo mount $device_name /mnt/d0"
     fi
     device_uuid=$(run_remote_command $private_ip_address "sudo blkid | awk '\$1==\"${device_name}:\" {print \$2}' | sed 's/\"//g' | cut -d '=' -f 2")
     echo $device_uuid
     if run_remote_command $private_ip_address "cat /etc/fstab | grep -qs UUID=$device_uuid"; then
-        echo "Device $device_name is already in /etc/fstab"
+      echo "Device $device_name is already in /etc/fstab"
     else
-        echo "Adding device $device_name with UUID $device_uuid to /etc/fstab"
-        run_remote_command $private_ip_address "echo \"UUID=$device_uuid /mnt/d0 xfs defaults 0 0\" | sudo tee -a /etc/fstab"
+      echo "Adding device $device_name with UUID $device_uuid to /etc/fstab"
+      run_remote_command $private_ip_address "echo \"UUID=$device_uuid /mnt/d0 xfs defaults 0 0\" | sudo tee -a /etc/fstab"
     fi
   done
   setup_remote_python $private_ip_address
