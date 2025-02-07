@@ -8,7 +8,7 @@ launched_by="<your user id>"
 
 ```
 
-# Some other places that may need modifications in node-agent-provision.yaml. Modify only the non-placeholder ones. The placeholders are replaced when the script is run.
+### Some other places that may need modifications in node-agent-provision.yaml. Modify only the non-placeholder ones. The placeholders are replaced when the script is run.
 ```
   provider:
     # Name of the cloud or infrastructure provider.
@@ -28,4 +28,7 @@ launched_by="<your user id>"
         name: us-west-2a
 ```
 
-# To run, simply change to scripts folder and run ./provision.sh
+### To run, simply do
+```
+cd ./scripts && ./provision.sh
+```
