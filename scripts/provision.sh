@@ -9,11 +9,11 @@ set -ex
 # if more customizations are needed.
 #---------------------------------------------------------------------------------------#
 
-yba_url="http://100.98.0.42:9000"
-api_token="3.a9190fe6-1067-409f-95cf-dbd96893c9c9.2b2374ff-09fd-4ae3-8c54-d9692a7b8a8f"
+yba_url="<yba_address>"
+api_token="<your_api_key>"
 customer_uuid="f33e3c9b-75ab-4c30-80ad-cba85646ea39"
-instance_name="nsingh-instance-1"
-launched_by="nsingh"
+instance_name="my-instance-1"
+launched_by="<your user id>"
 instance_type="c5.large"
 os_type="linux"
 arch_type="amd64"
