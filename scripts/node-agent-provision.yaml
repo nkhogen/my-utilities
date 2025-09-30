@@ -59,7 +59,7 @@ yba:
   provider:
     # Name of the cloud or infrastructure provider.
     # Examples: 'aws', 'gcp', 'azure', 'onprem'.
-    name: my-test-provider
+    name: onprem-ynp-test-provider
 
     # Region-specific settings.
     region:

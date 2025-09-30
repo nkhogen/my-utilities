@@ -9,15 +9,15 @@ set -ex
 # if more customizations are needed.
 #---------------------------------------------------------------------------------------#
 
-yba_url="<yba_address>"
-api_token="<your_api_key>"
-customer_uuid="f33e3c9b-75ab-4c30-80ad-cba85646ea39"
-instance_name="my-instance-1"
-launched_by="<your user id>"
+yba_url="${YBA_URL}"
+api_token="${YBA_API_TOKEN}"
+customer_uuid="${YBA_CUSTOMER_UUID}"
+instance_name="nsingh-instance-4"
+launched_by="nsingh"
 instance_type="c5.large"
 os_type="linux"
 arch_type="amd64"
-
+ynp_provision_node="false"
 
 #---------------------------------------------------------------------------------------#
 # Some internal constants. Not needed to be changed.
@@ -32,6 +32,7 @@ ynp_config_output_yaml="./node-agent-provision-output.yml"
 key_pair_name="yb-dev-aws-2"
 ssh_key_path="~/.yugabyte/yb-dev-aws-2.pem"
 instance_user="ec2-user"
+image_id="ami-0d35d4245140392e8" # Rhel 9 default is ami-00ce8e80b02149455
 
 
 # Run a remote command.
@@ -158,18 +159,24 @@ provision_instance() {
     fi
   done
   setup_remote_python $private_ip_address
-  download_command="curl -s -k -w \"%{http_code}\" --location --request GET \
+  if [ "$ynp_provision_node" == "true" ]; then
+    echo "Provisioning node agent on $private_ip_address"
+    run_remote_command $private_ip_address "sudo dnf install -y jq"
+    download_command="curl -s -k -w \"%{http_code}\" --location --request GET \
     \"$node_agent_download_url?downloadType=package&os=${os_type}&arch=${arch_type}\" \
     --header \"X-AUTH-YW-API-TOKEN: ${api_token}\" --output \"$node_agent_package\""
-  run_remote_command $private_ip_address "$download_command"
-  run_remote_command $private_ip_address "tar -zxf \"$node_agent_package\""
-  node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"version_metadata.json\" | awk -F '/' '\$2{print \$2;exit}'")
-  generate_copy_ynp_yaml $private_ip_address $node_agent_folder
-  run_remote_command $private_ip_address "cd \"$node_agent_folder/scripts\" && sudo ./node-agent-provision.sh"
+    run_remote_command $private_ip_address "$download_command"
+    run_remote_command $private_ip_address "tar -zxf \"$node_agent_package\""
+    node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"version_metadata.json\" | awk -F '/' '\$2{print \$2;exit}'")
+    generate_copy_ynp_yaml $private_ip_address $node_agent_folder
+    run_remote_command $private_ip_address "cd \"$node_agent_folder/scripts\" && sudo ./node-agent-provision.sh"
+    run_remote_command $private_ip_address "sudo chown -R yugabyte:yugabyte /mnt/d0"
+  else
+    echo "Skipping node agent provisioning as ynp_provision_node is set to false."
+  fi
 }
 
 cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd
 setup_local_python
 create_instance
 provision_instance
-
