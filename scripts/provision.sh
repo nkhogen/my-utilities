@@ -53,7 +53,7 @@ create_instance() {
   fi
   echo "Creating instance $instance_name"
   instance_name="$instance_name" create_instance_input_json="$create_instance_input_json" key_pair_name="$key_pair_name" \
-  instance_type="$instance_type" launched_by="$launched_by" \
+  instance_type="$instance_type" launched_by="$launched_by" image_id="$image_id" \
   python - "${create_instance_template_json}" <<EOF
 import json
 import os
@@ -76,6 +76,7 @@ for key in list(dict):
     dict[key] = os.getenv('key_pair_name')
   elif key == 'InstanceType':
     dict[key] = os.getenv('instance_type')
+dict['ImageId'] = os.getenv('image_id')
 with open(os.getenv('create_instance_input_json'), 'w') as f:
   json.dump(dict, f, indent=4)
 EOF
