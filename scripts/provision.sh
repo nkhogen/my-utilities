@@ -12,7 +12,7 @@ set -ex
 yba_url="${YBA_URL}"
 api_token="${YBA_API_TOKEN}"
 customer_uuid="${YBA_CUSTOMER_UUID}"
-instance_name="nsingh-instance-4"
+instance_name="nsingh-instance-5"
 launched_by="nsingh"
 instance_type="c5.large"
 os_type="linux"
@@ -160,13 +160,14 @@ provision_instance() {
     fi
   done
   setup_remote_python $private_ip_address
+  echo "Downloading node agent on $private_ip_address"
+  run_remote_command $private_ip_address "sudo dnf install -y jq"
+  download_command="curl -s -k -w \"%{http_code}\" --location --request GET \
+  \"$node_agent_download_url?downloadType=package&os=${os_type}&arch=${arch_type}\" \
+  --header \"X-AUTH-YW-API-TOKEN: ${api_token}\" --output \"$node_agent_package\""
+  run_remote_command $private_ip_address "$download_command"
   if [ "$ynp_provision_node" == "true" ]; then
     echo "Provisioning node agent on $private_ip_address"
-    run_remote_command $private_ip_address "sudo dnf install -y jq"
-    download_command="curl -s -k -w \"%{http_code}\" --location --request GET \
-    \"$node_agent_download_url?downloadType=package&os=${os_type}&arch=${arch_type}\" \
-    --header \"X-AUTH-YW-API-TOKEN: ${api_token}\" --output \"$node_agent_package\""
-    run_remote_command $private_ip_address "$download_command"
     run_remote_command $private_ip_address "tar -zxf \"$node_agent_package\""
     node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"version_metadata.json\" | awk -F '/' '\$2{print \$2;exit}'")
     generate_copy_ynp_yaml $private_ip_address $node_agent_folder

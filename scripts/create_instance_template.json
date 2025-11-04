@@ -20,7 +20,7 @@
         "DeviceName": "/dev/sda1",
         "Ebs": {
           "DeleteOnTermination": true,
-          "VolumeSize": 40,
+          "VolumeSize": 60,
           "VolumeType": "gp3",
           "Iops": 3000,
           "Throughput": 125
