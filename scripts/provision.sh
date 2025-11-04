@@ -11,7 +11,7 @@ set -ex
 
 yba_url="${YBA_URL}"
 api_token="${YBA_API_TOKEN}"
-customer_uuid="${YBA_CUSTOMER_UUID}"
+customer_uuid="${YBA_CUSTOMER_ID}"
 instance_name="nsingh-instance-5"
 launched_by="nsingh"
 instance_type="c5.large"
