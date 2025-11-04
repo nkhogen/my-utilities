@@ -165,16 +165,15 @@ provision_instance() {
   download_command="curl -s -k -w \"%{http_code}\" --location --request GET \
   \"$node_agent_download_url?downloadType=package&os=${os_type}&arch=${arch_type}\" \
   --header \"X-AUTH-YW-API-TOKEN: ${api_token}\" --output \"$node_agent_package\""
-    run_remote_command $private_ip_address "$download_command"
-    run_remote_command $private_ip_address "tar -zxf \"$node_agent_package\""
-    node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"version_metadata.json\" | awk -F '/' '\$2{print \$2;exit}'")
-    generate_copy_ynp_yaml $private_ip_address $node_agent_folder
+  run_remote_command $private_ip_address "$download_command"
+  run_remote_command $private_ip_address "tar -zxf \"$node_agent_package\""
+  node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"version_metadata.json\" | awk -F '/' '\$2{print \$2;exit}'")
+  generate_copy_ynp_yaml $private_ip_address $node_agent_folder
   if [ "$ynp_provision_node" == "true" ]; then
     echo "Provisioning node agent on $private_ip_address"
     run_remote_command $private_ip_address "cd \"$node_agent_folder/scripts\" && sudo ./node-agent-provision.sh"
     run_remote_command $private_ip_address "sudo chown -R yugabyte:yugabyte /mnt/d0"
   else
-    generate_copy_ynp_yaml $private_ip_address
     echo "Skipping node agent provisioning as ynp_provision_node is set to false."
   fi
 }
