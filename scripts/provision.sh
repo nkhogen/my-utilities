@@ -17,7 +17,7 @@ launched_by="nsingh"
 instance_type="c5.large"
 os_type="linux"
 arch_type="amd64"
-ynp_provision_node="false"
+ynp_provision_node="true"
 
 #---------------------------------------------------------------------------------------#
 # Some internal constants. Not needed to be changed.
@@ -40,7 +40,8 @@ run_remote_command() {
   ip="$1"
   shift
   command=$@
-  ssh -q -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -i "$ssh_key_path" ${instance_user}\@$ip "$command"
+  ssh -q -o 'IdentitiesOnly=yes' -o 'StrictHostKeyChecking=no' -o 'UserKnownHostsFile=/dev/null' -i \
+  "$ssh_key_path" ${instance_user}\@$ip "$command"
 }
 
 # Create an instance if it is not present by the name.
