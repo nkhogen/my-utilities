@@ -126,8 +126,8 @@ dict['yba']['instance_type']['name'] = os.getenv('instance_name')
 with open(os.getenv('ynp_config_output_yaml'), 'w') as file:
     yaml.dump(dict, file)
 EOF
-  scp -q -o 'StrictHostKeyChecking=no' -o UserKnownHostsFile=/dev/null  -i "$ssh_key_path" "${ynp_config_output_yaml}" \
-  ${instance_user}\@$ip:"${node_agent_folder}/scripts/${ynp_template_yaml}"
+  scp -q -o 'IdentitiesOnly=yes' -o 'StrictHostKeyChecking=no' -o UserKnownHostsFile=/dev/null  -i "$ssh_key_path" \
+  "${ynp_config_output_yaml}" ${instance_user}\@$ip:"${node_agent_folder}/scripts/${ynp_template_yaml}"
 }
 
 provision_instance() {
