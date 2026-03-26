@@ -12,12 +12,12 @@ set -ex
 yba_url="${YBA_URL}"
 api_token="${YBA_API_TOKEN}"
 customer_uuid="${YBA_CUSTOMER_ID}"
-instance_name="nsingh-instance-5"
+instance_name="nsingh-instance-1"
 launched_by="nsingh"
 instance_type="c5.large"
 os_type="linux"
 arch_type="amd64"
-ynp_provision_node="true"
+ynp_provision_node="false"
 
 #---------------------------------------------------------------------------------------#
 # Some internal constants. Not needed to be changed.
@@ -168,7 +168,7 @@ provision_instance() {
   --header \"X-AUTH-YW-API-TOKEN: ${api_token}\" --output \"$node_agent_package\""
   run_remote_command $private_ip_address "$download_command"
   run_remote_command $private_ip_address "tar -zxf \"$node_agent_package\""
-  node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"version_metadata.json\" | awk -F '/' '\$2{print \$2;exit}'")
+  node_agent_folder=$(run_remote_command $private_ip_address "tar -tzf \"$node_agent_package\" | grep \"/version_metadata.json\" | awk -F '/' '\$2{print \$(NF-1);exit}'")
   generate_copy_ynp_yaml $private_ip_address $node_agent_folder
   if [ "$ynp_provision_node" == "true" ]; then
     echo "Provisioning node agent on $private_ip_address"
