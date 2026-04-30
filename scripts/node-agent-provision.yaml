@@ -1,14 +1,18 @@
 # node-agent-provision.yaml
 
 ynp:
-  # Home directory for the 'yugabyte' user.
-  # This is where the YugabyteDB software and data will reside.
-  yb_home_dir: /home/yugabyte
-
   # NTP (Network Time Protocol) servers for time synchronization.
   chrony_servers:
     - "0.pool.ntp.org"
     - "1.pool.ntp.org"
+
+  # Home directory for the 'yugabyte' user.
+  # This is where the YugabyteDB software and data will reside.
+  yb_user_home: /home/yugabyte
+
+  # Custom home directory for the software installation.
+  # This is where the YugabyteDB software and data will reside.
+  yb_home_dir: /home/yb-software-home
 
   # User ID for the 'yugabyte' user.
   # Specifies the UID to ensure consistency across nodes.
@@ -33,6 +37,8 @@ ynp:
 
   # Install node_agent as part of provisioning.
   is_install_node_agent: true
+
+  configure_thp_settings: true
 
 yba:
   # The base URL of the Yugabyte Anywhere instance.
@@ -59,7 +65,7 @@ yba:
   provider:
     # Name of the cloud or infrastructure provider.
     # Examples: 'aws', 'gcp', 'azure', 'onprem'.
-    name: onprem-ynp-test-provider
+    name: onprem-ynp-test-provider-2025-2
 
     # Region-specific settings.
     region:
