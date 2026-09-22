@@ -24,7 +24,7 @@ ynp_provision_node="false"
 #---------------------------------------------------------------------------------------#
 create_instance_template_json="create_instance_template.json"
 create_instance_input_json="create_instance_input.json"
-create_instances_output_json="create_instances_output.json"
+create_instances_output_json="create_instances_output_${instance_name}.json"
 node_agent_download_url="$yba_url/api/v1/node_agents/download"
 node_agent_package="node-agent.tgz"
 ynp_template_yaml="./node-agent-provision.yaml"

@@ -45,6 +45,7 @@ ynp:
   configure_cgroup: true
 
 yba:
+  skip_tls_verify: true
   # The base URL of the Yugabyte Anywhere instance.
   # Example: 'https://yba.example.com'.
   url: <url>
@@ -52,6 +53,8 @@ yba:
   # The UUID of the customer in Yugabyte Anywhere.
   # This is a unique identifier provided by YBA.
   customer_uuid: <customer_uuid>
+
+  certificate_name: yb-admin-nsingh-test-universe2
 
   # API key for authenticating with Yugabyte Anywhere.
   # Used for secure communication and operations.
